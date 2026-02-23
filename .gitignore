@@ -1,7 +1,37 @@
+# Virtual environment
 venv/
+.venv/
+env/
+
+# Python cache
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Artifacts & data
 artifacts/
 logs/
-*.pyc
-.env
 *.log
+
+# Environment variables
+.env
+.env.*
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# ML specific
+mlruns/          # MLflow
+*.pkl            # model files (if large)
+*.h5
+*.pt
+*.pth
+
+# OS files
+.DS_Store        # Mac
+Thumbs.db        # Windows
+
+# IDE
+.vscode/
+.idea/
