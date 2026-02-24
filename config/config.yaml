@@ -5,3 +5,46 @@ data_ingestion:
   raw_data      : artifacts/data_ingestion/raw_data
   ingested_data : artifacts/data_ingestion/ingested_data
 
+data_validation:
+  validated_data: "artifacts/data_validation/validated/"
+  fallback_data:  "artifacts/data_validation/fallback/"
+  log_path:       "artifacts/data_validation/logs/log.json"
+  
+  expected_columns:
+    - asin
+    - product_name
+    - price
+    - rating
+    - review_count
+    - discount
+    - image_url
+    - product_link
+    - aesthetic
+  
+  missing_thresholds:
+    price:        0.10
+    rating:       0.45
+    review_count: 0.45
+    discount:     0.10
+  
+  volume:
+    min_rows: 1250
+    max_rows: 5000
+    expected: 2500
+  
+  valid_aesthetics:
+    - streetwear
+    - college_casual
+    - old_money
+    - date_clean
+    - gym_athleisure
+    - y2k_party
+    - office_smart
+  
+  range_checks:
+    price:
+      min: 0
+      max: 5000
+    rating:
+      min: 0.0
+      max: 5.0
