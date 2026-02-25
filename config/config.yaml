@@ -6,6 +6,7 @@ data_ingestion:
   ingested_data : artifacts/data_ingestion/ingested_data
 
 data_validation:
+  raw_data_path:  "artifacts/data_ingestion/raw_data/Amazon_Aesthetic_web_scrape.csv"
   validated_data: "artifacts/data_validation/validated/"
   fallback_data:  "artifacts/data_validation/fallback/"
   log_path:       "artifacts/data_validation/logs/log.json"
@@ -28,9 +29,9 @@ data_validation:
     discount:     0.10
   
   volume:
-    min_rows: 1250
-    max_rows: 5000
-    expected: 2500
+    min_rows: 6900
+    max_rows: 20000
+    expected: 13813
   
   valid_aesthetics:
     - streetwear
@@ -43,8 +44,8 @@ data_validation:
   
   range_checks:
     price:
-      min: 0
-      max: 5000
+      min: 76
+      max: 60000
     rating:
       min: 0.0
       max: 5.0
