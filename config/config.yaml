@@ -49,3 +49,8 @@ data_validation:
     rating:
       min: 0.0
       max: 5.0
+
+data_transformation:
+  valid_data : artifacts/data_validation/validated/validated_2026_02_25.csv
+  transformed_data : "artifacts/data_transformation/transformed data/"
+  model_path : "artifacts/data_transformation/transformed model/"
