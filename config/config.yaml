@@ -54,3 +54,10 @@ data_transformation:
   valid_data : artifacts/data_validation/validated/validated_2026_02_25.csv
   transformed_data : "artifacts/data_transformation/transformed data/"
   model_path : "artifacts/data_transformation/transformed model/"
+
+
+feature_engineering:
+  transformed_model: "artifacts/data_transformation/transformed model/Transformed_Data.pkl"
+  featured_data:    "artifacts/feature_engineering/featured_data/"
+  model_path:       "artifacts/feature_engineering/model/"
+
