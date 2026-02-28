@@ -60,4 +60,8 @@ feature_engineering:
   transformed_model: "artifacts/data_transformation/transformed model/Transformed_Data.pkl"
   featured_data:    "artifacts/feature_engineering/featured_data/"
   model_path:       "artifacts/feature_engineering/model/"
+  sim_matrix_path:  "artifacts/feature_engineering/model/sim_matrix.pkl"
+  tfidf_path:       "artifacts/feature_engineering/model/tfidf.pkl"
+  scaler_path:      "artifacts/feature_engineering/model/scaler.pkl"
+  featured_df_path: "artifacts/feature_engineering/featured_data/featured_data.pkl"
 
