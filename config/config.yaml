@@ -65,3 +65,8 @@ feature_engineering:
   scaler_path:      "artifacts/feature_engineering/model/scaler.pkl"
   featured_df_path: "artifacts/feature_engineering/featured_data/featured_data.pkl"
 
+
+model_building:
+  sim_matrix_path:  "artifacts/feature_engineering/model/sim_matrix.pkl"
+  featured_df_path: "artifacts/feature_engineering/featured_data/featured_data.pkl"
+  model_path:       "artifacts/model_building/model/"
