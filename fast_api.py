@@ -44,7 +44,9 @@ def recommend_similar(request:Engine1Request):
         scores             = sim_matrix[product_id].copy()
         scores[product_id] = -1
         top_idx            = scores.argsort()[::-1][:10]
-        results            = df.iloc[top_idx][['product_name_clean', 'price', 'rating', 'aesthetic', 'score']].copy()
+        results            = results = df.iloc[top_idx][['product_name_clean', 'price', 'rating', 'aesthetic', 
+                                                         'score', 'image_url', 'product_link']].copy()
+        results['price'] = np.expm1(results['price']).round(0).astype(int)
         results['similarity'] = scores[top_idx]
 
         return {
@@ -59,7 +61,7 @@ def recommend_similar(request:Engine1Request):
         raise HTTPException(status_code=500, detail=str(e))
     
 @app.post("/recommend/aesthetic")
-def recommend_aesthetic(request :Engine2Request):
+def recommend_aesthetic(request: Engine2Request):
     try:
         unique_aesthetic = df['aesthetic'].unique().tolist()
         if request.aesthetic not in unique_aesthetic:
@@ -67,21 +69,35 @@ def recommend_aesthetic(request :Engine2Request):
                 status_code = 404,
                 detail      = f"Aesthetic '{request.aesthetic}' not found"
             )
-        
-        filtered = df[df['aesthetic'] == request.aesthetic]
-        top_products = filtered.sort_values('score',ascending=False).head(request.top_k)
+
+        filtered     = df[df['aesthetic'] == request.aesthetic]
+        top_products = filtered.sort_values('score', ascending=False).head(request.top_k)
+        top_products['price'] = np.expm1(top_products['price']).round(0).astype(int)
+
         return {
-                "aesthetic"       : request.aesthetic,
-                "total_in_category": len(filtered),
-                "recommendations" : top_products[[
-                    'product_name_clean',
-                    'price',
-                    'rating',
-                    'score'
-                ]].to_dict(orient='records')
-            }
+            "aesthetic"        : request.aesthetic,
+            "total_in_category": len(filtered),
+            "recommendations"  : top_products[[
+                'product_name_clean',
+                'price',
+                'rating',
+                'discount',     # ← add
+                'score',
+                'image_url',    # ← add
+                'product_link'  # ← add
+            ]].to_dict(orient='records')
+        }
 
     except HTTPException:
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/product_names")
+def Product_names():
+
+    names = df['product_name'].unique().tolist()
+
+    return {
+        'unique_product_names':names
+    }
