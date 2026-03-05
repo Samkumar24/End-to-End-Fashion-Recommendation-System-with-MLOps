@@ -2,7 +2,7 @@ import os
 from src.recommendation_system.utils.common import read_yaml , create_dir
 from src.recommendation_system.logging import logger
 from src.recommendation_system.constants import CONFIG_PATH
-from src.recommendation_system.entity import (Data_injestion_congig ,
+from src.recommendation_system.entity import (Data_injestion_config ,
                                               Data_transformation_config,
                                               Data_validation_config,
                                               model_building_config,
@@ -19,13 +19,13 @@ class Config_manager:
 
 ##########################################################################
 
-    def get_data_ingestion_config(self) -> Data_injestion_congig:
+    def get_data_ingestion_config(self) -> Data_injestion_config:
 
         config = self.config_path.data_ingestion
 
         create_dir([config.raw_data , config.ingested_data])
 
-        data_ingestion_config =  Data_injestion_congig(
+        data_ingestion_config =  Data_injestion_config(
 
             dataset_link= config.dataset_link,
             raw_data      = (config.raw_data),

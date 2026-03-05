@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import pickle
 import pandas as pd
 import numpy as np
@@ -17,8 +18,8 @@ st.set_page_config(
 
 @st.cache_data
 def load_data():
-    df             = pickle.load(open('artifacts/feature_engineering/featured_data/featured_data.pkl', 'rb'))
-    df['price']    = np.expm1(df['price']).round(0).astype(int)
+    df                 = pickle.load(open('artifacts/feature_engineering/featured_data/featured_data.pkl', 'rb'))
+    df['price']        = np.expm1(df['price']).round(0).astype(int)
     df['review_count'] = np.expm1(df['review_count']).round(0).astype(int)
     return df
 
@@ -165,90 +166,6 @@ section.main,
 .result-count b { color: var(--black); font-weight: 700; }
 .result-hint { font-family: 'Inter', sans-serif; font-size: 0.68rem; color: var(--mid); }
 
-.card {
-    background: var(--white); overflow: hidden;
-    transition: box-shadow 0.2s, transform 0.2s;
-    position: relative; border-radius: 3px;
-}
-.card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.10); transform: translateY(-2px); }
-.card-img-wrap { position: relative; overflow: hidden; background: #F9F9F9; }
-.card-img {
-    width: 100%; aspect-ratio: 3/4;
-    object-fit: cover; display: block;
-    transition: transform 0.4s ease;
-}
-.card:hover .card-img { transform: scale(1.05); }
-
-.disc-badge {
-    position: absolute; top: 0; left: 0;
-    background: var(--red); color: var(--white);
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 0.6rem; font-weight: 800;
-    padding: 4px 8px; letter-spacing: 0.5px;
-}
-.aes-tag {
-    position: absolute; top: 8px; right: 8px;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.52rem; font-weight: 600;
-    letter-spacing: 1.5px; text-transform: uppercase;
-    padding: 3px 7px; border-radius: 2px;
-    backdrop-filter: blur(4px);
-}
-.match-badge {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    background: rgba(28,28,28,0.82); color: var(--white);
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 0.6rem; font-weight: 800;
-    letter-spacing: 1.5px; padding: 5px 8px; text-align: center;
-}
-
-.card-body { padding: 0.55rem 0.7rem 0.7rem; }
-.brand {
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 0.72rem; font-weight: 800;
-    color: var(--black); text-transform: uppercase;
-    letter-spacing: 0.3px; margin-bottom: 0.1rem;
-}
-.pname {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.7rem; color: var(--mid);
-    line-height: 1.35; white-space: nowrap;
-    overflow: hidden; text-overflow: ellipsis;
-    margin-bottom: 0.45rem;
-}
-.price-row {
-    display: flex; align-items: baseline;
-    gap: 0.4rem; margin-bottom: 0.25rem; flex-wrap: wrap;
-}
-.price-now { font-family: 'Nunito Sans', sans-serif; font-size: 0.92rem; font-weight: 800; color: var(--black); }
-.price-mrp { font-family: 'Inter', sans-serif; font-size: 0.68rem; color: #BBBBBB; text-decoration: line-through; }
-.price-off { font-family: 'Nunito Sans', sans-serif; font-size: 0.68rem; font-weight: 700; color: var(--red); }
-.rating-row { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.5rem; }
-.rtag {
-    background: var(--green); color: var(--white);
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 0.58rem; font-weight: 800;
-    padding: 2px 6px; border-radius: 2px;
-}
-.rcount { font-family: 'Inter', sans-serif; font-size: 0.62rem; color: #BBBBBB; }
-
-.view-btn {
-    display: block; text-align: center;
-    text-decoration: none !important;
-    border: 1.5px solid var(--black);
-    color: var(--black) !important;
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 0.62rem; font-weight: 800;
-    letter-spacing: 1.5px; text-transform: uppercase;
-    padding: 0.45rem 0; border-radius: 2px;
-    transition: all 0.15s;
-}
-.view-btn:hover {
-    background: var(--red) !important;
-    border-color: var(--red) !important;
-    color: var(--white) !important;
-}
-
 .stButton > button {
     background: var(--white) !important;
     border: 1.5px solid var(--border) !important;
@@ -380,6 +297,7 @@ def safe_int(val, default=0):
     except:
         return default
 
+
 def card_html(p, sim=None):
     aesthetic = p.get("aesthetic", "streetwear")
     meta      = AESTHETICS_META.get(aesthetic, AESTHETICS_META["streetwear"])
@@ -391,17 +309,40 @@ def card_html(p, sim=None):
     name      = p.get("product_name_clean", "")
     brand     = name.split()[0].upper() if name else ""
     mrp       = int(price / (1 - discount / 100)) if discount > 0 and discount < 100 else price
-    mrp_str   = f'<span class="price-mrp">₹{mrp:,}</span>' if discount > 0 else ""
-    off_str   = f'<span class="price-off">{discount}% off</span>' if discount > 0 else ""
-    disc      = f'<div class="disc-badge">{discount}% OFF</div>' if discount > 0 else ""
-    aestag    = f'<div class="aes-tag" style="background:{meta["color"]}18;color:{meta["color"]}">{meta["emoji"]} {meta["label"]}</div>'
-    matchb    = f'<div class="match-badge">● {sim:.0%} MATCH</div>' if sim else ""
 
-    return f"""
+    disc   = '<div style="position:absolute;top:0;left:0;background:#E63A00;color:white;font-size:0.6rem;font-weight:800;padding:4px 8px;letter-spacing:0.5px">{d}% OFF</div>'.format(d=discount) if discount > 0 else ""
+    aestag = '<div style="position:absolute;top:8px;right:8px;background:{c}22;color:{c};font-size:0.52rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:3px 7px;border-radius:2px">{e} {l}</div>'.format(c=meta["color"], e=meta["emoji"], l=meta["label"])
+    matchb = '<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(28,28,28,0.82);color:white;font-size:0.6rem;font-weight:800;letter-spacing:1.5px;padding:5px 8px;text-align:center">● {s:.0%} MATCH</div>'.format(s=sim) if sim else ""
+    mrp_str = '<span style="font-size:0.68rem;color:#BBBBBB;text-decoration:line-through">₹{m:,}</span>'.format(m=mrp) if discount > 0 else ""
+    off_str = '<span style="font-size:0.68rem;font-weight:700;color:#E63A00">{d}% off</span>'.format(d=discount) if discount > 0 else ""
+
+    html = """<!DOCTYPE html>
+<html>
+<head>
+<style>
+  * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+  body {{ font-family: Inter, sans-serif; background: white; }}
+  .card {{ background: white; overflow: hidden; position: relative; border-radius: 3px; transition: box-shadow 0.2s, transform 0.2s; }}
+  .card:hover {{ box-shadow: 0 4px 20px rgba(0,0,0,0.10); transform: translateY(-2px); }}
+  .card-img-wrap {{ position: relative; overflow: hidden; background: #F9F9F9; }}
+  .card-img {{ width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; transition: transform 0.4s ease; }}
+  .card:hover .card-img {{ transform: scale(1.05); }}
+  .card-body {{ padding: 0.55rem 0.7rem 0.7rem; }}
+  .brand {{ font-size: 0.72rem; font-weight: 800; color: #1C1C1C; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 0.1rem; }}
+  .pname {{ font-size: 0.7rem; color: #888888; line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 0.45rem; }}
+  .price-row {{ display: flex; align-items: baseline; gap: 0.4rem; margin-bottom: 0.25rem; flex-wrap: wrap; }}
+  .price-now {{ font-size: 0.92rem; font-weight: 800; color: #1C1C1C; }}
+  .rating-row {{ display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.5rem; }}
+  .rtag {{ background: #2E7D32; color: white; font-size: 0.58rem; font-weight: 800; padding: 2px 6px; border-radius: 2px; }}
+  .rcount {{ font-size: 0.62rem; color: #BBBBBB; }}
+  .view-btn {{ display: block; text-align: center; text-decoration: none; border: 1.5px solid #1C1C1C; color: #1C1C1C; font-size: 0.62rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; padding: 0.45rem 0; border-radius: 2px; transition: all 0.15s; }}
+  .view-btn:hover {{ background: #E63A00; border-color: #E63A00; color: white; }}
+</style>
+</head>
+<body>
 <div class="card">
   <div class="card-img-wrap">
-    <img class="card-img" src="{image}"
-         onerror="this.style.background='#F0F0F0';this.src=''" />
+    <img class="card-img" src="{image}" onerror="this.style.background='#F0F0F0';this.src=''" />
     {disc}{aestag}{matchb}
   </div>
   <div class="card-body">
@@ -417,7 +358,22 @@ def card_html(p, sim=None):
     </div>
     <a href="{link}" target="_blank" class="view-btn">View on Amazon</a>
   </div>
-</div>"""
+</div>
+</body>
+</html>""".format(
+        image   = image,
+        disc    = disc,
+        aestag  = aestag,
+        matchb  = matchb,
+        brand   = brand,
+        name    = name,
+        price   = price,
+        mrp_str = mrp_str,
+        off_str = off_str,
+        rating  = rating,
+        link    = link
+    )
+    return html
 
 
 def render_grid(products, prefix, sim_scores=None, ncols=5):
@@ -429,7 +385,11 @@ def render_grid(products, prefix, sim_scores=None, ncols=5):
             idx   = row_start + ci
             score = sim_scores[idx] if sim_scores and idx < len(sim_scores) else None
             with cols[ci]:
-                st.markdown(card_html(p, sim=score), unsafe_allow_html=True)
+                components.html(
+                    card_html(p, sim=score),
+                    height=480,
+                    scrolling=False
+                )
                 btn_key = f"{prefix}_{idx}_{str(p.get('product_name_clean',''))[:15]}"
                 if st.button("Find Similar", key=btn_key):
                     st.session_state["sel_product"] = p
@@ -502,7 +462,11 @@ tab1, tab2 = st.tabs(["  Find Similar  ", "  Browse Aesthetics  "])
 with tab1:
 
     st.markdown('<div class="search-section">', unsafe_allow_html=True)
-    search = st.text_input("", placeholder="🔍   Search — oversized tshirt, linen shirt, cargo pants...")
+    search = st.text_input(
+        "Search",
+        placeholder="🔍   Search — oversized tshirt, linen shirt, cargo pants...",
+        label_visibility="collapsed"
+    )
     st.markdown('</div>', unsafe_allow_html=True)
 
     if "sel_product" in st.session_state:
@@ -587,7 +551,6 @@ with tab2:
     with st.spinner(f"Loading {m['label']} products..."):
         pool = call_aesthetic(cur, top_k=20)
 
-    # fallback to pkl if api down
     if not pool:
         pool = (
             df[df['aesthetic'] == cur]

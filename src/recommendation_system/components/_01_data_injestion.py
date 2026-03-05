@@ -2,7 +2,7 @@ from src.recommendation_system.utils.common import read_yaml , create_dir
 from src.recommendation_system.logging import logger
 from src.recommendation_system.constants import CONFIG_PATH
 from src.recommendation_system.logging import logger
-from src.recommendation_system.entity import Data_injestion_congig
+from src.recommendation_system.entity import Data_injestion_config
 import requests
 import os
 
@@ -10,7 +10,7 @@ import os
 
 class Data_ingestion:
 
-    def __init__(self, config : Data_injestion_congig):
+    def __init__(self, config : Data_injestion_config):
         
         self.config = config
 

@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 @dataclass(frozen=True)
-class Data_injestion_congig:
+class Data_injestion_config:
 
     dataset_link : str
     raw_data : Path
