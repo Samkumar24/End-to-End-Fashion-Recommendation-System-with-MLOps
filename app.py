@@ -310,9 +310,9 @@ def card_html(p, sim=None):
     brand     = name.split()[0].upper() if name else ""
     mrp       = int(price / (1 - discount / 100)) if discount > 0 and discount < 100 else price
 
-    disc   = '<div style="position:absolute;top:0;left:0;background:#E63A00;color:white;font-size:0.6rem;font-weight:800;padding:4px 8px;letter-spacing:0.5px">{d}% OFF</div>'.format(d=discount) if discount > 0 else ""
-    aestag = '<div style="position:absolute;top:8px;right:8px;background:{c}22;color:{c};font-size:0.52rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:3px 7px;border-radius:2px">{e} {l}</div>'.format(c=meta["color"], e=meta["emoji"], l=meta["label"])
-    matchb = '<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(28,28,28,0.82);color:white;font-size:0.6rem;font-weight:800;letter-spacing:1.5px;padding:5px 8px;text-align:center">● {s:.0%} MATCH</div>'.format(s=sim) if sim else ""
+    disc    = '<div style="position:absolute;top:0;left:0;background:#E63A00;color:white;font-size:0.6rem;font-weight:800;padding:4px 8px;letter-spacing:0.5px">{d}% OFF</div>'.format(d=discount) if discount > 0 else ""
+    aestag  = '<div style="position:absolute;top:8px;right:8px;background:{c}22;color:{c};font-size:0.52rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:3px 7px;border-radius:2px">{e} {l}</div>'.format(c=meta["color"], e=meta["emoji"], l=meta["label"])
+    matchb  = '<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(28,28,28,0.82);color:white;font-size:0.6rem;font-weight:800;letter-spacing:1.5px;padding:5px 8px;text-align:center">● {s:.0%} MATCH</div>'.format(s=sim) if sim else ""
     mrp_str = '<span style="font-size:0.68rem;color:#BBBBBB;text-decoration:line-through">₹{m:,}</span>'.format(m=mrp) if discount > 0 else ""
     off_str = '<span style="font-size:0.68rem;font-weight:700;color:#E63A00">{d}% off</span>'.format(d=discount) if discount > 0 else ""
 
@@ -387,7 +387,7 @@ def render_grid(products, prefix, sim_scores=None, ncols=5):
             with cols[ci]:
                 components.html(
                     card_html(p, sim=score),
-                    height=480,
+                    height=560,
                     scrolling=False
                 )
                 btn_key = f"{prefix}_{idx}_{str(p.get('product_name_clean',''))[:15]}"
@@ -531,35 +531,74 @@ with tab1:
 # ══════════════════════════════════════════════════════
 # TAB 2 — BROWSE BY AESTHETIC
 # ══════════════════════════════════════════════════════
-
 with tab2:
 
-    st.markdown('<div class="aes-btn-wrap">', unsafe_allow_html=True)
-    btn_cols = st.columns(7, gap="small")
-    for i, (aes_key, meta) in enumerate(AESTHETICS_META.items()):
-        with btn_cols[i]:
-            if st.button(f"{meta['emoji']} {meta['label']}", key=f"aes_btn_{aes_key}"):
-                st.session_state["browse_aes"] = aes_key
-    st.markdown('</div>', unsafe_allow_html=True)
+    if "sel_product" in st.session_state:
+        sel       = st.session_state["sel_product"]
+        meta      = AESTHETICS_META.get(sel.get("aesthetic", "streetwear"), AESTHETICS_META["streetwear"])
+        disc_html = f'&nbsp;<span style="font-size:0.78rem;color:#E63A00;font-family:Inter">{safe_int(sel.get("discount",0))}% off</span>' if safe_int(sel.get("discount", 0)) > 0 else ""
 
-    if "browse_aes" not in st.session_state:
-        st.session_state["browse_aes"] = "streetwear"
+        st.markdown(f"""
+<div class="sel-banner">
+  <img class="sel-img" src="{sel.get('image_url','')}"
+       onerror="this.style.background='#EEE';this.src=''" />
+  <div>
+    <div class="sel-tag">{meta['emoji']} {meta['label']} &nbsp;·&nbsp; Showing Similar Products</div>
+    <div class="sel-name">{sel.get('product_name_clean','')}</div>
+    <div class="sel-price">₹{safe_int(sel.get('price',0)):,}{disc_html}</div>
+  </div>
+</div>
+""", unsafe_allow_html=True)
 
-    cur = st.session_state["browse_aes"]
-    m   = AESTHETICS_META[cur]
+        st.markdown("""
+<div class="sec-head">
+  <span class="sec-title">Similar Products</span>
+  <span class="sec-sub">Powered by Cosine Similarity Engine</span>
+</div>
+""", unsafe_allow_html=True)
 
-    with st.spinner(f"Loading {m['label']} products..."):
-        pool = call_aesthetic(cur, top_k=20)
+        with st.spinner("Finding similar products..."):
+            recs = call_similar(sel.get("product_name_clean", ""), top_k=10)
 
-    if not pool:
-        pool = (
-            df[df['aesthetic'] == cur]
-              .sort_values('score', ascending=False)
-              .head(20)
-              .to_dict(orient='records')
-        )
+        if recs:
+            sim_scores = [r.get("similarity", 0) for r in recs]
+            render_grid(recs, prefix="sim2", sim_scores=sim_scores, ncols=5)
+        else:
+            st.warning("Could not fetch recommendations. Is FastAPI running on port 8000?")
 
-    st.markdown(f"""
+        st.markdown('<div class="grid-wrap" style="margin-top:1rem">', unsafe_allow_html=True)
+        if st.button("← Back to Aesthetics", key="back_btn2"):
+            del st.session_state["sel_product"]
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    else:
+        st.markdown('<div class="aes-btn-wrap">', unsafe_allow_html=True)
+        btn_cols = st.columns(7, gap="small")
+        for i, (aes_key, meta) in enumerate(AESTHETICS_META.items()):
+            with btn_cols[i]:
+                if st.button(f"{meta['emoji']} {meta['label']}", key=f"aes_btn_{aes_key}"):
+                    st.session_state["browse_aes"] = aes_key
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        if "browse_aes" not in st.session_state:
+            st.session_state["browse_aes"] = "streetwear"
+
+        cur = st.session_state["browse_aes"]
+        m   = AESTHETICS_META[cur]
+
+        with st.spinner(f"Loading {m['label']} products..."):
+            pool = call_aesthetic(cur, top_k=20)
+
+        if not pool:
+            pool = (
+                df[df['aesthetic'] == cur]
+                  .sort_values('score', ascending=False)
+                  .head(20)
+                  .to_dict(orient='records')
+            )
+
+        st.markdown(f"""
 <div class="aes-hero">
   <div class="aes-eyebrow">Aesthetic Collection</div>
   <div class="aes-title">{m['emoji']} {m['label']}</div>
@@ -567,8 +606,7 @@ with tab2:
 </div>
 """, unsafe_allow_html=True)
 
-    render_grid(pool, prefix=f"br_{cur}", ncols=5)
-
+        render_grid(pool, prefix=f"br_{cur}", ncols=5)
 # ══════════════════════════════════════════════════════
 # FOOTER
 # ══════════════════════════════════════════════════════
