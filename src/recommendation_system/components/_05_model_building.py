@@ -5,7 +5,7 @@ from src.recommendation_system.logging import logger
 import pickle
 from src.recommendation_system.entity import model_building_config
 
-class model_building_config:
+class model_building_check:
 
     def __init__(self, config) -> None:
         self.config = config

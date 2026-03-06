@@ -12,7 +12,7 @@ import regex as re
 
 class Data_transformation_check:
 
-    def __init__(self, config):
+    def __init__(self, config:Data_transformation_config):
         # config should contain paths like:
         # config.valid_data
         # config.transformed_data

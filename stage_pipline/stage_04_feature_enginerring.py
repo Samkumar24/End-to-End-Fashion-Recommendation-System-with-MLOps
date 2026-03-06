@@ -8,7 +8,7 @@ class feature_enginerring_pipline:
     def __init__(self):
         pass
 
-    def main():
+    def main(self):
 
 
         con = Config_manager()

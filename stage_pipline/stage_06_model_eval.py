@@ -8,7 +8,7 @@ class model_eval_pipline:
     def __init__(self):
         pass
 
-    def main():
+    def main(self):
 
 
         con   = Config_manager()

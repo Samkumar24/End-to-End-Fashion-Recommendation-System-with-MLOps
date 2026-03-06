@@ -61,7 +61,7 @@ class Config_manager:
     
     def get_data_transformation(self) -> Data_transformation_config:
         
-        config = self.config.data_transformation
+        config = self.config_path.data_transformation
         
         create_dir([config.transformed_data,
                     config.model_path])
@@ -78,7 +78,7 @@ class Config_manager:
     
     def get_feature_engineering(self) -> feature_enginerring_config:
 
-        config = self.config.feature_engineering          
+        config = self.config_path.feature_engineering          
 
         create_dir([config.featured_data,                 
                 config.model_path])
@@ -100,21 +100,21 @@ class Config_manager:
 
     def get_model_building(self) -> model_building_config:
         
-        config = self.config.model_building
+        config = self.config_path.model_building
 
         create_dir([config.model_path])
 
-        model_building_config = model_building_config(
+        return model_building_config (
             sim_matrix_path  = (config.sim_matrix_path),
             featured_df_path = (config.featured_df_path),
             model_path       = (config.model_path)
         )
-        return model_building_config        
+                
     
 ##########################################################################
 
     def get_model_evaluation(self) -> model_evalulation_config:
-        config = self.config.model_evalvation
+        config = self.config_path.model_evalvation
 
         create_dir([config.model_eval_metrics])
 

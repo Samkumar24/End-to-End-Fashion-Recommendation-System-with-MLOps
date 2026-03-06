@@ -7,80 +7,109 @@ from stage_pipline.stage_06_model_eval import model_eval_pipline
 from src.recommendation_system.logging import logger
 
 
-
-
-Stage_name = "Data ingestion"
+# ==================================================================================
+Stage_name = "Stage 1 : Data Ingestion"
 try:
-    logger.info(f">>>>>> stage {Stage_name} started <<<<<<") 
+    logger.info("") 
+    logger.info("="*80)
+    logger.info(f"          >>>>>>  {Stage_name}  STARTED  <<<<<<")
+    logger.info("="*80)
     data_ingestion = Data_injestion_pipline()
     data_ingestion.main()
-    logger.info(f">>>>>> stage {Stage_name} completed <<<<<<\n\nx==========x")
+    logger.info("="*80)
+    logger.info(f"          >>>>>>  {Stage_name}  COMPLETED  <<<<<<")
+    logger.info("="*80)
+    logger.info("") 
 except Exception as e:
-        logger.exception(e)
-        raise e
+    logger.exception(e)
+    raise e
 
-##################################################
 
-Stage_name = "Data Validation"
+# ==================================================================================
+Stage_name = "Stage 2 : Data Validation"
 try:
-    logger.info(f">>>>>> stage {Stage_name} started <<<<<<") 
-    data_transformation = Data_vaidation_pipline()
+    logger.info("") 
+    logger.info("="*80)
+    logger.info(f"          >>>>>>  {Stage_name}  STARTED  <<<<<<")
+    logger.info("="*80)
+    data_validation = Data_vaidation_pipline()
+    data_validation.main()
+    logger.info("="*80)
+    logger.info(f"          >>>>>>  {Stage_name}  COMPLETED  <<<<<<")
+    logger.info("="*80)
+    logger.info("") 
+except Exception as e:
+    logger.exception(e)
+    raise e
+
+
+# ==================================================================================
+Stage_name = "Stage 3 : Data Transformation"
+try:
+    logger.info("") 
+    logger.info("="*80)
+    logger.info(f"          >>>>>>  {Stage_name}  STARTED  <<<<<<")
+    logger.info("="*80)
+    data_transformation = Data_transformation_pipline()
     data_transformation.main()
-    logger.info(f">>>>>> stage {Stage_name} completed <<<<<<\n\nx==========x")
+    logger.info("="*80)
+    logger.info(f"          >>>>>>  {Stage_name}  COMPLETED  <<<<<<")
+    logger.info("="*80)
+    logger.info("") 
 except Exception as e:
-        logger.exception(e)
-        raise e
-
-##################################################
+    logger.exception(e)
+    raise e
 
 
-Stage_name = "Data Transformtion"
+# ==================================================================================
+Stage_name = "Stage 4 : Feature Engineering"
 try:
-    logger.info(f">>>>>> stage {Stage_name} started <<<<<<") 
-    model_eval = Data_transformation_pipline()
-    model_eval.main()
-    logger.info(f">>>>>> stage {Stage_name} completed <<<<<<\n\nx==========x")
+    logger.info("") 
+    logger.info("="*80)
+    logger.info(f"          >>>>>>  {Stage_name}  STARTED  <<<<<<")
+    logger.info("="*80)
+    feature_engineering = feature_enginerring_pipline()
+    feature_engineering.main()
+    logger.info("="*80)
+    logger.info(f"          >>>>>>  {Stage_name}  COMPLETED  <<<<<<")
+    logger.info("="*80)
+    logger.info("") 
 except Exception as e:
-        logger.exception(e)
-        raise e
-
-##################################################
+    logger.exception(e)
+    raise e
 
 
-Stage_name = "Feature eniginerring"
+# ==================================================================================
+Stage_name = "Stage 5 : Model Training"
 try:
-    logger.info(f">>>>>> stage {Stage_name} started <<<<<<") 
-    model_eval = feature_enginerring_pipline()
-    model_eval.main()
-    logger.info(f">>>>>> stage {Stage_name} completed <<<<<<\n\nx==========x")
+    logger.info("") 
+    logger.info("="*80)
+    logger.info(f"          >>>>>>  {Stage_name}  STARTED  <<<<<<")
+    logger.info("="*80)
+    model_training = model_training_pipline()
+    model_training.main()
+    logger.info("="*80)
+    logger.info(f"          >>>>>>  {Stage_name}  COMPLETED  <<<<<<")
+    logger.info("="*80)
+    logger.info("") 
 except Exception as e:
-        logger.exception(e)
-        raise e
-
-##################################################
+    logger.exception(e)
+    raise e
 
 
-Stage_name = "Model Training"
+# ==================================================================================
+Stage_name = "Stage 6 : Model Evaluation"
 try:
-    logger.info(f">>>>>> stage {Stage_name} started <<<<<<") 
-    model_eval = model_training_pipline()
-    model_eval.main()
-    logger.info(f">>>>>> stage {Stage_name} completed <<<<<<\n\nx==========x")
-except Exception as e:
-        logger.exception(e)
-        raise e
-
-##################################################
-
-
-Stage_name = "Model Evalulation"
-try:
-    logger.info(f">>>>>> stage {Stage_name} started <<<<<<") 
+    logger.info("") 
+    logger.info("="*80)
+    logger.info(f"          >>>>>>  {Stage_name}  STARTED  <<<<<<")
+    logger.info("="*80)
     model_eval = model_eval_pipline()
     model_eval.main()
-    logger.info(f">>>>>> stage {Stage_name} completed <<<<<<\n\nx==========x")
+    logger.info("="*80)
+    logger.info(f"          >>>>>>  {Stage_name}  COMPLETED  <<<<<<")
+    logger.info("="*80)
+    logger.info("") 
 except Exception as e:
-        logger.exception(e)
-        raise e
-
-
+    logger.exception(e)
+    raise e

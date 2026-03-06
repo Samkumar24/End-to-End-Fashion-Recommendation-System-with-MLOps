@@ -48,10 +48,7 @@ class model_building_config:
     featured_df_path: Path    
     model_path:       Path    
 
-from dataclasses import dataclass
-from pathlib import Path
-@dataclass
-
+@dataclass(frozen=True)
 class model_evalulation_config:
     sim_matrix_path: Path
     featured_df_path :Path 

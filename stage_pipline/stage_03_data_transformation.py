@@ -8,11 +8,8 @@ class Data_transformation_pipline:
     def __init__(self):
         pass
 
-    def main():
-
-
+    def main(self):
         con = Config_manager()
-
-        data_transformation_config = con.get_data_transformation()
-        data_transformation = Data_transformation_check(data_transformation_config)
-        df = data_transformation.initiate_data_transformation()  
+        data_transformation = con.get_data_transformation()
+        data_transformation = Data_transformation_check(data_transformation)
+        data_transformation.initiate_data_transformation()  
