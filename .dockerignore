@@ -1,0 +1,56 @@
+# ── Virtual Environment ──────────────────────────
+venv/
+.venv/
+env/
+ENV/
+
+# ── Python Cache ─────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ── Jupyter Notebooks ────────────────────────────
+notebooks/
+*.ipynb
+.ipynb_checkpoints/
+
+# ── Git Files ────────────────────────────────────
+.git/
+.gitignore
+.gitattributes
+
+# ── Logs ─────────────────────────────────────────
+*.log
+logs/
+
+# ── MLflow Experiments (not needed in container) ─
+mlruns/
+mlartifacts/
+
+# ── Environment Files ────────────────────────────
+.env
+.env.local
+.env.production
+
+# ── Build / Packaging Files ──────────────────────
+dist/
+build/
+*.egg-info/
+
+# ── OS Files ─────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Testing Files ─────────────────────────────────
+tests/
+test_*.py
+.pytest_cache/
+.coverage
+
+# ── IDE Files ────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
