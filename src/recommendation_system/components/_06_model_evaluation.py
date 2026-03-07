@@ -170,6 +170,8 @@ class model_evalulation_congif:
                 experiment_id = run.info.experiment_id
                 run_url       = f"{self.config.ml_flow_tracking_uri}/#/experiments/{experiment_id}/runs/{run_id}"
 
+
+
             # ── log summary ──────────────────────────────
             logger.info("======= SUMMARY =======")
             for k, v in summary.items():
