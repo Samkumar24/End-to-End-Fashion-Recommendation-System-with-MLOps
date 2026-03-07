@@ -54,3 +54,9 @@ test_*.py
 .idea/
 *.swp
 *.swo
+
+# __________mlflow-------------------
+mlflow.db
+mlflow.db-shm
+mlflow.db-wal
+mlruns/
