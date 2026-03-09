@@ -11,8 +11,8 @@ class model_eval_pipline:
     def main(self):
 
 
-        con   = Config_manager()
-        model = con.get_model_evaluation()
-        model = model_evalulation_config(model)
-        model.run_evaluation()   
+        con= Config_manager()              # ← create config manager
+        model_config = con.get_model_evaluation()   # ← get model eval config
+        model  = model_evalulation_config(model_config)  # ← pass config
+        model.run_evaluation()        
 

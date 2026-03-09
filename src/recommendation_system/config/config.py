@@ -107,14 +107,15 @@ class Config_manager:
         return model_building_config (
             sim_matrix_path  = (config.sim_matrix_path),
             featured_df_path = (config.featured_df_path),
-            model_path       = (config.model_path)
+            model_path       = (config.model_path),
+            
         )
                 
     
 ##########################################################################
 
     def get_model_evaluation(self) -> model_evalulation_config:
-        config = self.config.model_evalvation
+        config = self.config_path.model_evalvation
 
         create_dir([config.model_eval_metrics])
 
