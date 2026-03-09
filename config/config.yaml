@@ -72,9 +72,8 @@ model_building:
   model_path:       "artifacts/model_building/model/"
 
 model_evalvation:
-  sim_matrix_path:  "artifacts/feature_engineering/model/sim_matrix.pkl"
-  featured_df_path: "artifacts/feature_engineering/featured_data/featured_data.pkl"
-  model_eval_metrics : "artifacts/model_evalvation/model/"
-  ml_flow_tracking_uri:    "http://localhost:5000"
+  sim_matrix_path:         "artifacts/feature_engineering/model/sim_matrix.pkl"
+  featured_df_path:        "artifacts/feature_engineering/featured_data/featured_data.pkl"
+  model_eval_metrics:      "artifacts/model_evalvation/model/"
   ml_flow_experiment_name: "Fashion-Recommendation"
   ml_flow_run_name:        "evaluation"
