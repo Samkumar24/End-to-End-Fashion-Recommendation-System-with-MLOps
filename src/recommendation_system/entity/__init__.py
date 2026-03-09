@@ -53,7 +53,8 @@ class model_evalulation_config:
     sim_matrix_path: Path
     featured_df_path :Path 
     model_eval_metrics : Path
-    ml_flow_tracking_uri :str
     ml_flow_experiment_name :str
     ml_flow_run_name :str
+    ml_flow_tracking_uri :str
+
 

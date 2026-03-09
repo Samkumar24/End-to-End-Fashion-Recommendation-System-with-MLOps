@@ -114,7 +114,7 @@ class Config_manager:
 ##########################################################################
 
     def get_model_evaluation(self) -> model_evalulation_config:
-        config = self.config_path.model_evalvation
+        config = self.config.model_evalvation
 
         create_dir([config.model_eval_metrics])
 
@@ -122,9 +122,9 @@ class Config_manager:
             sim_matrix_path        = (config.sim_matrix_path),
             featured_df_path       = (config.featured_df_path),
             model_eval_metrics = (config.model_eval_metrics),
-            ml_flow_tracking_uri   = config.ml_flow_tracking_uri,
-        ml_flow_experiment_name = config.ml_flow_experiment_name,
-        ml_flow_run_name        = config.ml_flow_run_name
+            ml_flow_experiment_name = config.ml_flow_experiment_name,
+            ml_flow_run_name        = config.ml_flow_run_name,
+            ml_flow_tracking_uri   = config.ml_flow_tracking_uri
         ) 
     
 

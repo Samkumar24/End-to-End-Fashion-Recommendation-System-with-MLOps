@@ -77,3 +77,4 @@ model_evalvation:
   model_eval_metrics:      "artifacts/model_evalvation/model/"
   ml_flow_experiment_name: "Fashion-Recommendation"
   ml_flow_run_name:        "evaluation"
+  ml_flow_tracking_uri : "https://dagshub.com/samkumarr24/End-to-End-Fashion-Recommendation-System-with-MLOps.mlflow"
