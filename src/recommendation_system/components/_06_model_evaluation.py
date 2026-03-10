@@ -8,11 +8,14 @@ import pandas as pd
 import mlflow
 from src.recommendation_system.entity import model_evalulation_config
 import numpy as np
+from datetime import datetime
+from dotenv import load_dotenv 
+from pathlib import Path
 
 
-class model_evalulation_congif:
+class model_evalulation_config:
 
-    def __init__(self, config):
+    def __init__(self, config)->None:
         self.config     = config
         self.sim_matrix = None
         self.df         = None
@@ -22,6 +25,7 @@ class model_evalulation_congif:
             logger.info("=" * 20 + " Loading Artifacts STARTED " + "=" * 20)
             with open(self.config.sim_matrix_path, 'rb') as f:
                 self.sim_matrix = pickle.load(f)
+
             with open(self.config.featured_df_path, 'rb') as f:
                 self.df = pickle.load(f)
             logger.info("sim_matrix : %s", str(self.sim_matrix.shape))
@@ -36,7 +40,6 @@ class model_evalulation_congif:
         try:
             logger.info("=" * 20 + " Test Sample STARTED " + "=" * 20)
 
-            # 5 products per aesthetic — balanced test set
             test_set = (
                 self.df.groupby("aesthetic", group_keys=False)
                        .apply(lambda x: x.sample(min(5, len(x)), random_state=42))
@@ -52,7 +55,6 @@ class model_evalulation_congif:
             logger.error("Test sample FAILED - %s", str(e))
             raise e
 
-    # ── ground truth — similarity threshold ──────────
     def get_relevant(self, product_id, threshold=0.4):
         scores = self.sim_matrix[product_id].copy()
         return [
@@ -60,12 +62,10 @@ class model_evalulation_congif:
             if s >= threshold and i != product_id
         ]
 
-    # ── precision@k ──────────────────────────────────
     def precision_at_k(self, top_idx, relevant_idx, k) -> float:
         hits = len(set(top_idx[:k]) & set(relevant_idx))
         return hits / k if k > 0 else 0.0
 
-    # ── ndcg@k ───────────────────────────────────────
     def ndcg_at_k(self, top_idx, relevant_idx, k) -> float:
         relevant_set = set(relevant_idx)
         dcg  = sum(
@@ -76,7 +76,6 @@ class model_evalulation_congif:
         idcg = sum(1 / np.log2(i + 2) for i in range(min(k, len(relevant_set))))
         return dcg / idcg if idcg > 0 else 0.0
 
-    # ── map ──────────────────────────────────────────
     def map_score(self, top_idx, relevant_idx, k) -> float:
         relevant_set = set(relevant_idx)
         hits, score  = 0, 0.0
@@ -144,13 +143,23 @@ class model_evalulation_congif:
                 "map"               : round(metrics_df["map"].mean(),             4),
             }
 
-            # save csv
-            out_path = os.path.join(
-                self.config.model_eval_metrics, 'eval_metrics.csv'
-            )
+            timestamp = datetime.now().strftime("%Y_%m_%d")
+            out_path  = os.path.join(
+            self.config.model_eval_metrics,
+            f'eval_{timestamp}_metrics.csv'
+        )
             metrics_df.to_csv(out_path, index=False)
+            logger.info("Metrics saved: %s", out_path)
 
             # ── MLflow ───────────────────────────────────
+
+            load_dotenv()
+            username = os.getenv("MLFLOW_TRACKING_USERNAME")
+            password = os.getenv("MLFLOW_TRACKING_PASSWORD")
+
+            os.environ["MLFLOW_TRACKING_USERNAME"] = username
+            os.environ["MLFLOW_TRACKING_PASSWORD"] = password
+
             mlflow.set_tracking_uri(self.config.ml_flow_tracking_uri)
             mlflow.set_experiment(self.config.ml_flow_experiment_name)
 
@@ -162,25 +171,23 @@ class model_evalulation_congif:
 
                 mlflow.log_metric("precision_at_k", summary["precision_at_k"])
                 mlflow.log_metric("ndcg_at_k",      summary["ndcg_at_k"])
-                mlflow.log_metric("map",             summary["map"])
+                mlflow.log_metric("map",            summary["map"])
 
                 mlflow.log_artifact(out_path)
 
+
                 run_id        = run.info.run_id
                 experiment_id = run.info.experiment_id
-                run_url       = f"{self.config.ml_flow_tracking_uri}/#/experiments/{experiment_id}/runs/{run_id}"
 
-
+            run_url = f"{self.config.ml_flow_tracking_uri}/#/experiments/{experiment_id}/runs/{run_id}"
 
             # ── log summary ──────────────────────────────
             logger.info("======= SUMMARY =======")
             for k, v in summary.items():
                 logger.info("%-25s : %s", k, v)
-            logger.info("Run ID  : %s", run_id)
-            logger.info("Run URL : %s", run_url)
+           
             logger.info("=" * 20 + " Evaluation COMPLETED " + "=" * 20)
 
-            # ── return AFTER mlflow ───────────────────────
             return summary, metrics_df, run_id, run_url
 
         except Exception as e:

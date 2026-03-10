@@ -13,7 +13,7 @@ class Data_injestion_config:
 
 @dataclass(frozen=True)
 class Data_validation_config:
-    raw_data_path:      Path
+    raw_data_folder:    Path
     validated_data:     Path
     fallback_data:      Path
     log_path:           Path
@@ -53,7 +53,8 @@ class model_evalulation_config:
     sim_matrix_path: Path
     featured_df_path :Path 
     model_eval_metrics : Path
-    ml_flow_tracking_uri :str
     ml_flow_experiment_name :str
     ml_flow_run_name :str
+    ml_flow_tracking_uri :str
+
 

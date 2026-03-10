@@ -45,7 +45,7 @@ class Config_manager:
                     os.path.dirname(config.log_path)])
         
         data_validation_config = Data_validation_config(
-        raw_data_path =     config.raw_data_path,
+        raw_data_folder =     config.raw_data_folder,
         validated_data     = config.validated_data,
         fallback_data      = config.fallback_data,
         log_path           = config.log_path,
@@ -107,7 +107,8 @@ class Config_manager:
         return model_building_config (
             sim_matrix_path  = (config.sim_matrix_path),
             featured_df_path = (config.featured_df_path),
-            model_path       = (config.model_path)
+            model_path       = (config.model_path),
+            
         )
                 
     
@@ -122,9 +123,9 @@ class Config_manager:
             sim_matrix_path        = (config.sim_matrix_path),
             featured_df_path       = (config.featured_df_path),
             model_eval_metrics = (config.model_eval_metrics),
-            ml_flow_tracking_uri   = config.ml_flow_tracking_uri,
-        ml_flow_experiment_name = config.ml_flow_experiment_name,
-        ml_flow_run_name        = config.ml_flow_run_name
+            ml_flow_experiment_name = config.ml_flow_experiment_name,
+            ml_flow_run_name        = config.ml_flow_run_name,
+            ml_flow_tracking_uri   = config.ml_flow_tracking_uri
         ) 
     
 
