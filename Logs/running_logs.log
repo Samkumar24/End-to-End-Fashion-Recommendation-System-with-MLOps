@@ -5471,3 +5471,96 @@ TypeError: str expected, not NoneType
 [2026-03-10 01:02:36,370: INFO: main:           >>>>>>  Stage 6 : Model Evaluation  COMPLETED  <<<<<<]
 [2026-03-10 01:02:36,370: INFO: main: ================================================================================]
 [2026-03-10 01:02:36,370: INFO: main: ]
+[2026-03-10 13:50:30,167: INFO: main: ]
+[2026-03-10 13:50:30,168: INFO: main: ================================================================================]
+[2026-03-10 13:50:30,168: INFO: main:           >>>>>>  Stage 1 : Data Ingestion  STARTED  <<<<<<]
+[2026-03-10 13:50:30,168: INFO: main: ================================================================================]
+[2026-03-10 13:50:30,174: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-10 13:50:30,176: INFO: common: created directory at: artifacts]
+[2026-03-10 13:50:30,178: INFO: common: created directory at: artifacts/data_ingestion/raw_data]
+[2026-03-10 13:50:30,178: INFO: common: created directory at: artifacts/data_ingestion/ingested_data]
+[2026-03-10 13:50:30,180: INFO: _01_data_injestion: Already downloaded today: artifacts/data_ingestion/raw_data\Amazon_Aesthetic_web_scrape.csv]
+[2026-03-10 13:50:30,180: INFO: main: ================================================================================]
+[2026-03-10 13:50:30,180: INFO: main:           >>>>>>  Stage 1 : Data Ingestion  COMPLETED  <<<<<<]
+[2026-03-10 13:50:30,180: INFO: main: ================================================================================]
+[2026-03-10 13:50:30,180: INFO: main: ]
+[2026-03-10 13:50:30,180: INFO: main: ]
+[2026-03-10 13:50:30,180: INFO: main: ================================================================================]
+[2026-03-10 13:50:30,180: INFO: main:           >>>>>>  Stage 2 : Data Validation  STARTED  <<<<<<]
+[2026-03-10 13:50:30,182: INFO: main: ================================================================================]
+[2026-03-10 13:50:30,189: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-10 13:50:30,194: INFO: common: created directory at: artifacts]
+[2026-03-10 13:50:30,195: INFO: common: created directory at: artifacts/data_validation/validated/]
+[2026-03-10 13:50:30,197: INFO: common: created directory at: artifacts/data_validation/fallback/]
+[2026-03-10 13:50:30,199: INFO: common: created directory at: artifacts/data_validation/logs]
+[2026-03-10 13:50:30,199: ERROR: main: "'Box' object has no attribute 'raw_data_path'"]
+Traceback (most recent call last):
+  File "box/box.py", line 605, in box.box.Box.__getitem__
+KeyError: 'raw_data_path'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "box/box.py", line 644, in box.box.Box.__getattr__
+  File "box/box.py", line 632, in box.box.Box.__getitem__
+box.exceptions.BoxKeyError: "'raw_data_path'"
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "box/box.py", line 646, in box.box.Box.__getattr__
+AttributeError: 'Box' object has no attribute 'raw_data_path'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\sam\End-to-End-Fashion-Recommendation-System-with-MLOps\main.py", line 36, in <module>
+    data_validation.main()
+  File "C:\Users\sam\End-to-End-Fashion-Recommendation-System-with-MLOps\stage_pipline\stage_02_Data_validation.py", line 13, in main
+    data_validation = con.get_data_validation_config()
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sam\End-to-End-Fashion-Recommendation-System-with-MLOps\src\recommendation_system\config\config.py", line 48, in get_data_validation_config
+    raw_data_path =     config.raw_data_path,
+                        ^^^^^^^^^^^^^^^^^^^^
+  File "box/box.py", line 660, in box.box.Box.__getattr__
+box.exceptions.BoxKeyError: "'Box' object has no attribute 'raw_data_path'"
+[2026-03-10 13:54:45,535: INFO: main: ]
+[2026-03-10 13:54:45,535: INFO: main: ================================================================================]
+[2026-03-10 13:54:45,535: INFO: main:           >>>>>>  Stage 2 : Data Validation  STARTED  <<<<<<]
+[2026-03-10 13:54:45,535: INFO: main: ================================================================================]
+[2026-03-10 13:54:45,535: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-10 13:54:45,548: INFO: common: created directory at: artifacts]
+[2026-03-10 13:54:45,548: INFO: common: created directory at: artifacts/data_validation/validated/]
+[2026-03-10 13:54:45,549: INFO: common: created directory at: artifacts/data_validation/fallback/]
+[2026-03-10 13:54:45,551: INFO: common: created directory at: artifacts/data_validation/logs]
+[2026-03-10 13:54:45,551: INFO: _02_data_validation: ========================================]
+[2026-03-10 13:54:45,551: INFO: _02_data_validation: DATA VALIDATION STARTED]
+[2026-03-10 13:54:45,551: INFO: _02_data_validation: ========================================]
+[2026-03-10 13:54:45,552: INFO: _02_data_validation: Latest file found: artifacts/data_ingestion/raw_data/Amazon_Aesthetic_web_scrape.csv]
+[2026-03-10 13:54:45,674: INFO: _02_data_validation: Loaded: 16364 rows from artifacts/data_ingestion/raw_data/]
+[2026-03-10 13:54:45,674: INFO: _02_data_validation: ----------------------------------------]
+[2026-03-10 13:54:45,674: INFO: _02_data_validation: CHECK 1 - SCHEMA]
+[2026-03-10 13:54:45,674: INFO: _02_data_validation: PASSED - Check 1 Schema]
+[2026-03-10 13:54:45,674: INFO: _02_data_validation: ----------------------------------------]
+[2026-03-10 13:54:45,674: INFO: _02_data_validation: CHECK 2 - MISSING VALUES]
+[2026-03-10 13:54:45,679: INFO: _02_data_validation: PASSED - Check 2 Missing Values]
+[2026-03-10 13:54:45,679: INFO: _02_data_validation: ----------------------------------------]
+[2026-03-10 13:54:45,679: INFO: _02_data_validation: CHECK 3 - VOLUME]
+[2026-03-10 13:54:45,679: INFO: _02_data_validation: PASSED - Check 3 Volume - 16364 rows]
+[2026-03-10 13:54:45,679: INFO: _02_data_validation: ----------------------------------------]
+[2026-03-10 13:54:45,679: INFO: _02_data_validation: CHECK 4 - CATEGORIES]
+[2026-03-10 13:54:45,688: INFO: _02_data_validation: PASSED - Check 4 Categories]
+[2026-03-10 13:54:45,688: INFO: _02_data_validation: ----------------------------------------]
+[2026-03-10 13:54:45,688: INFO: _02_data_validation: CHECK 5 - RANGES]
+[2026-03-10 13:54:45,690: INFO: _02_data_validation: PASSED - Check 5 Ranges]
+[2026-03-10 13:54:45,692: INFO: _02_data_validation: ----------------------------------------]
+[2026-03-10 13:54:45,696: INFO: _02_data_validation: PASSED - Check 5 Ranges]
+[2026-03-10 13:54:45,696: INFO: _02_data_validation: ----------------------------------------]
+[2026-03-10 13:54:45,696: INFO: _02_data_validation: Saving validated data...]
+[2026-03-10 13:54:45,870: INFO: _02_data_validation: Weekly data saved: validated_2026_03_10.csv]
+[2026-03-10 13:54:46,059: INFO: _02_data_validation: Master updated: 13813 rows]
+[2026-03-10 13:54:46,167: INFO: _02_data_validation: Fallback saved: fallback_2026_03_10.csv]
+[2026-03-10 13:54:46,173: INFO: main: ================================================================================]
+[2026-03-10 13:54:46,173: INFO: main:           >>>>>>  Stage 2 : Data Validation  COMPLETED  <<<<<<]
+[2026-03-10 13:54:46,173: INFO: main: ================================================================================]
+[2026-03-10 13:54:46,173: INFO: main: ]

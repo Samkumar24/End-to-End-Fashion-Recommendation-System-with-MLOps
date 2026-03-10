@@ -13,7 +13,7 @@ class Data_injestion_config:
 
 @dataclass(frozen=True)
 class Data_validation_config:
-    raw_data_path:      Path
+    raw_data_folder:    Path
     validated_data:     Path
     fallback_data:      Path
     log_path:           Path

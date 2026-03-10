@@ -9,10 +9,28 @@ import pandas as pd
 from datetime import datetime
 
 class Data_validation_check:
+    
 
     def __init__(self, config: Data_validation_config):
         # store config so all methods can use it
         self.config = config
+
+    
+    def get_data_folder(self , folder_path):
+
+        files = [
+            file for file in os.listdir(folder_path) if file.endswith('.csv')
+        ]
+
+        if not files:
+            raise FileNotFoundError(f"No CSV files found in {folder_path}")
+        
+        latest = max(files , key=lambda x: os.path.getmtime(os.path.join(folder_path, x)))
+
+        full_path = os.path.join(folder_path , latest)
+        logger.info("Latest file found: %s", full_path)
+        return full_path
+
 
     # ── check 1 — schema ──────────────────────────────────
     def check_schema(self, df):
@@ -145,8 +163,9 @@ class Data_validation_check:
 
             # load raw data from path in config
             # no hardcoding - path comes from config.yaml
-            df = pd.read_csv(self.config.raw_data_path)
-            logger.info(f"Loaded: {len(df)} rows from {self.config.raw_data_path}")
+            raw_data_path  = self.get_data_folder(self.config.raw_data_folder)
+            df = pd.read_csv(raw_data_path)
+            logger.info(f"Loaded: {len(df)} rows from {self.config.raw_data_folder}")
             logger.info("-" * 40)
 
             # ── check 1 ───────────────────────────────────
@@ -255,8 +274,8 @@ class Data_validation_check:
                 
 
             else:
-                comdined_df = df
-                comdined_df.to_csv(master_path,index=False)
+                combined_df = df
+                combined_df.to_csv(master_path,index=False)
                 logger.info(f"Master created: {len(combined_df)} rows")
 
             fallback_name = f"fallback_{timestamp}.csv"

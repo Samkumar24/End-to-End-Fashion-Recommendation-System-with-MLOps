@@ -7,21 +7,23 @@ from stage_pipline.stage_06_model_eval import model_eval_pipline
 from src.recommendation_system.logging import logger
 
 
+# ── Stage 1 — Data Ingestion ──────────────────────────
 
 
-# ==================================================================================
-Stage_name = "Stage 6 : Model Evaluation"
+
+# ── Stage 2 — Data Validation ─────────────────────────
+Stage_name = "Stage 2 : Data Validation"
 try:
-    logger.info("") 
-    logger.info("="*80)
+    logger.info("")
+    logger.info("=" * 80)
     logger.info(f"          >>>>>>  {Stage_name}  STARTED  <<<<<<")
-    logger.info("="*80)
-    model_eval = model_eval_pipline()
-    model_eval.main()
-    logger.info("="*80)
+    logger.info("=" * 80)
+    data_validation = Data_vaidation_pipline()
+    data_validation.main()
+    logger.info("=" * 80)
     logger.info(f"          >>>>>>  {Stage_name}  COMPLETED  <<<<<<")
-    logger.info("="*80)
-    logger.info("") 
+    logger.info("=" * 80)
+    logger.info("")
 except Exception as e:
     logger.exception(e)
     raise e

@@ -45,7 +45,7 @@ class Config_manager:
                     os.path.dirname(config.log_path)])
         
         data_validation_config = Data_validation_config(
-        raw_data_path =     config.raw_data_path,
+        raw_data_folder =     config.raw_data_folder,
         validated_data     = config.validated_data,
         fallback_data      = config.fallback_data,
         log_path           = config.log_path,

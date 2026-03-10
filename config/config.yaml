@@ -6,7 +6,7 @@ data_ingestion:
   ingested_data : artifacts/data_ingestion/ingested_data
 
 data_validation:
-  raw_data_path:  "artifacts/data_ingestion/raw_data/Amazon_Aesthetic_web_scrape.csv"
+  raw_data_folder:  "artifacts/data_ingestion/raw_data/"
   validated_data: "artifacts/data_validation/validated/"
   fallback_data:  "artifacts/data_validation/fallback/"
   log_path:       "artifacts/data_validation/logs/log.json"

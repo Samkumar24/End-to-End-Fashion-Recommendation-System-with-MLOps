@@ -3,6 +3,7 @@ from src.recommendation_system.logging import logger
 from src.recommendation_system.constants import CONFIG_PATH
 from src.recommendation_system.logging import logger
 from src.recommendation_system.entity import Data_injestion_config
+from datetime import datetime
 import requests
 import os
 
@@ -20,10 +21,16 @@ class Data_ingestion:
         try:
 
             url = self.config.dataset_link
-            
             file_name = os.path.basename(url)
+            name, ext = os.path.splitext(file_name)
 
+            timestamp     = datetime.now().strftime("%Y_%m_%d")
+            new_file_name = f"{name}_{timestamp}{ext}"
             save_path = os.path.join(self.config.raw_data , file_name)
+
+            if os.path.exists(save_path):
+                logger.info("Already downloaded today: %s", save_path)
+                return save_path
             
             response = requests.get(url)
             if response.status_code == 200:
