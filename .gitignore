@@ -35,3 +35,6 @@ Thumbs.db        # Windows
 # IDE
 .vscode/
 .idea/
+
+test_credentials.py
+check_env.py
