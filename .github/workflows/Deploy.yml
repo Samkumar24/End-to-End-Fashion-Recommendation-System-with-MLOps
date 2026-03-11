@@ -16,10 +16,9 @@ jobs:
 
       - name : "Docker Login"
         uses : docker/login-action@v3
-
         with:
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Build Docker Image
         run: docker build -t samdocker4/fashion-recommendation-system:latest .
