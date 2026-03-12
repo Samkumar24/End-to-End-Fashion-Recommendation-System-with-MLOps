@@ -11,7 +11,7 @@ COPY . /app
 RUN mkdir -p artifacts/feature_engineering/model
 RUN mkdir -p artifacts/feature_engineering/featured_data
 
-RUN python docker_run_pipline.py
+RUN python docker_run_pipeline.py
 
 EXPOSE 8000
 EXPOSE 8501

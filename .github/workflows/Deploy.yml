@@ -1,27 +1,28 @@
-name : Deploy
+name: Deploy
 
-on :
-  push:
-    branches:
-      - main 
+on:
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: samdocker4/fashion-recommendation-system
 
 jobs:
   Deploy:
-    name : "Deploy the Docker File"
-    runs-on : ubuntu-latest
+    name: Deploy the Docker File
+    runs-on: ubuntu-latest
 
     steps:
-      - name : "Build the Docker Image"
-        uses : actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name : "Docker Login"
-        uses : docker/login-action@v3
+      - name: Docker Login
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Build Docker Image
-        run: docker build -t samdocker4/fashion-recommendation-system:latest .
-    
+        run: docker build -t $IMAGE_NAME:latest .
+
       - name: Push Docker Image
-        run : docker push samdocker4/fashion-recommendation-system:latest
+        run: docker push $IMAGE_NAME:latest
