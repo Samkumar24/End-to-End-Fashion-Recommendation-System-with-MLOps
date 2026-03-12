@@ -26,7 +26,7 @@ class Data_ingestion:
 
             timestamp     = datetime.now().strftime("%Y_%m_%d")
             new_file_name = f"{name}_{timestamp}{ext}"
-            save_path = os.path.join(self.config.raw_data , file_name)
+            save_path = os.path.join(self.config.raw_data , new_file_name)
 
             if os.path.exists(save_path):
                 logger.info("Already downloaded today: %s", save_path)
@@ -39,6 +39,8 @@ class Data_ingestion:
 
                 logger.info(f"Request {response.status_code} success")
                 logger.info(f"Data saved to: {self.config.raw_data}")
+
+                return save_path
 
             else:
                 logger.info("Exceution falied with {response.status_code}")
