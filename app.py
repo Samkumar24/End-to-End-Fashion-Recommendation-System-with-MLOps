@@ -311,7 +311,7 @@ def card_html(p, sim=None):
     mrp       = int(price / (1 - discount / 100)) if discount > 0 and discount < 100 else price
 
     disc    = '<div style="position:absolute;top:0;left:0;background:#E63A00;color:white;font-size:0.6rem;font-weight:800;padding:4px 8px;letter-spacing:0.5px">{d}% OFF</div>'.format(d=discount) if discount > 0 else ""
-    aestag  = '<div style="position:absolute;top:8px;right:8px;background:{c}22;color:{c};font-size:0.52rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:3px 7px;border-radius:2px">{e} {l}</div>'.format(c=meta["color"], e=meta["emoji"], l=meta["label"])
+    #aestag  = '<div style="position:absolute;top:8px;right:8px;background:{c}22;color:{c};font-size:0.52rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:3px 7px;border-radius:2px">{e} {l}</div>'.format(c=meta["color"], e=meta["emoji"], l=meta["label"])
     matchb  = '<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(28,28,28,0.82);color:white;font-size:0.6rem;font-weight:800;letter-spacing:1.5px;padding:5px 8px;text-align:center">● {s:.0%} MATCH</div>'.format(s=sim) if sim else ""
     mrp_str = '<span style="font-size:0.68rem;color:#BBBBBB;text-decoration:line-through">₹{m:,}</span>'.format(m=mrp) if discount > 0 else ""
     off_str = '<span style="font-size:0.68rem;font-weight:700;color:#E63A00">{d}% off</span>'.format(d=discount) if discount > 0 else ""
@@ -343,7 +343,7 @@ def card_html(p, sim=None):
 <div class="card">
   <div class="card-img-wrap">
     <img class="card-img" src="{image}" onerror="this.style.background='#F0F0F0';this.src=''" />
-    {disc}{aestag}{matchb}
+    {disc}{matchb}
   </div>
   <div class="card-body">
     <div class="brand">{brand}</div>
@@ -363,7 +363,7 @@ def card_html(p, sim=None):
 </html>""".format(
         image   = image,
         disc    = disc,
-        aestag  = aestag,
+        #aestag  = aestag,
         matchb  = matchb,
         brand   = brand,
         name    = name,
@@ -464,7 +464,7 @@ with tab1:
     st.markdown('<div class="search-section">', unsafe_allow_html=True)
     search = st.text_input(
         "Search",
-        placeholder="🔍   Search — oversized tshirt, linen shirt, cargo pants...",
+        placeholder=" oversized tshirt, linen shirt, cargo pants...",
         label_visibility="collapsed"
     )
     st.markdown('</div>', unsafe_allow_html=True)
