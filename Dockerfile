@@ -8,6 +8,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . /app
 
+RUN mkdir -p artifacts/feature_engineering/model
+RUN mkdir -p artifacts/feature_engineering/featured_data
+
+RUN python docker_run_pipline.py
+
 EXPOSE 8000
 EXPOSE 8501
 
