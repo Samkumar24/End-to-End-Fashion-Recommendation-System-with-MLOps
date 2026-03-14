@@ -6,7 +6,7 @@ import numpy as np
 import requests
 
 st.set_page_config(
-    page_title="AesthsAI",
+    page_title="AesthsticAI",
     page_icon="◆",
     layout="wide",
     initial_sidebar_state="collapsed"
