@@ -281,6 +281,30 @@ div[data-testid="stTabs"] button[aria-selected="true"] {
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: #CCC; border-radius: 2px; }
 [data-testid="stHorizontalBlock"] { gap: 0.8rem !important; }
+
+@media screen and (max-width: 768px) {
+    [data-testid="stHorizontalBlock"] {
+        flex-wrap: wrap !important;
+    }
+    [data-testid="column"] {
+        min-width: 48% !important;
+        max-width: 48% !important;
+        flex: 0 0 48% !important;
+    }
+    .grid-wrap { padding: 0 0.5rem !important; }
+    .navbar { padding: 0 1rem !important; height: 52px !important; }
+    .nav-logo { font-size: 1.2rem !important; }
+    .catbar { padding: 0 0.5rem !important; }
+    .cat { font-size: 0.6rem !important; padding: 0.7rem 0.8rem !important; }
+    .search-section { padding: 0.7rem 1rem !important; }
+    .result-bar { padding: 0.5rem 1rem !important; flex-direction: column !important; gap: 0.2rem !important; }
+    .sec-head { padding: 1rem 1rem 0.8rem !important; }
+    .aes-hero { padding: 1rem !important; }
+    .aes-title { font-size: 1.3rem !important; }
+    .sel-banner { padding: 1rem !important; }
+    .aes-btn-wrap { padding: 0.8rem 0.5rem !important; }
+    .footer { padding: 1rem !important; flex-direction: column !important; gap: 0.5rem !important; text-align: center !important; }
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -387,7 +411,7 @@ def render_grid(products, prefix, sim_scores=None, ncols=5):
             with cols[ci]:
                 components.html(
                     card_html(p, sim=score),
-                    height=560,
+                    height=550,
                     scrolling=False
                 )
                 btn_key = f"{prefix}_{idx}_{str(p.get('product_name_clean',''))[:15]}"
